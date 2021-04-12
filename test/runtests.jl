@@ -17,8 +17,8 @@ using TestSetExtensions
         end
         @testset "π" begin
             @test contfrac(π, 5) == ContinuedFraction([3, 7, 15, 1, 292])
-            @test contfrac(π, 5) == ContinuedFraction([3, 7, 15, 1, 292])
-            @test contfrac(π, 5) == ContinuedFraction([3, 7, 15, 1, 292])
+            @test_throws InexactError contfrac(Int8, π, 5)
+            @test contfrac(Float64, π, 5) == ContinuedFraction([3., 7, 15, 1, 292])
             @test contfrac(big(π), 75) == ContinuedFraction{Vector{Int}}([
                 3, 7, 15, 1, 292, 1, 1, 1, 2, 1, 3, 1, 14, 2, 1, 1, 2, 2,
                 2, 2, 1, 84, 2, 1, 1, 15, 3, 13, 1, 4, 2, 6, 6, 99, 1, 2,
