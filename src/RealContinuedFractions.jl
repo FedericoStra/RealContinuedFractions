@@ -41,15 +41,7 @@ fromcontfrac(cf::ContinuedFraction) = fromcontfrac(_rational(eltype(cf)), cf)
 
 function fromcontfrac(T::Type, cf::ContinuedFraction)
     T = _rational(T)
-    foldr((x, y) -> T(x) + inv(y), cf.q[1:end-1]; init=T(cf.q[end]))
-end
-
-export fromcontfrac_fast
-
-fromcontfrac_fast(cf::ContinuedFraction) = fromcontfrac_fast(_rational(eltype(cf)), cf)
-
-function fromcontfrac_fast(T::Type, cf::ContinuedFraction)
-    T = _rational(T)
+    # return foldr((x, y) -> T(x) + inv(y), cf.q[1:end-1]; init=T(cf.q[end]))
     indices = reverse(eachindex(cf.q))
     x = T(cf.q[indices[1]])
     for i in indices[2:end]
