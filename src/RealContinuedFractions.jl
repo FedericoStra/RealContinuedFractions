@@ -1,6 +1,6 @@
 module RealContinuedFractions
 
-export ContinuedFraction, contfrac, fromcontfrac, quotients, convergents
+export ContinuedFraction, contfrac, fromcontfrac, convergents, convergent
 
 """
     ContinuedFraction(q::Q)
@@ -73,6 +73,57 @@ function fromcontfrac(T::Type, cf::ContinuedFraction)
         x = T(cf.q[i]) + inv(x)
     end
     x
+end
+
+"""
+    convergents(cf::ContinuedFraction)
+    convergents(T::Type, cf::ContinuedFraction)
+
+Compute the convergents of the continued fraction.
+"""
+function convergents end
+
+convergents(cf::ContinuedFraction) = convergents(eltype(cf), cf)
+
+convergents(::Type{<:Rational{T}}, cf::ContinuedFraction) where T = convergents(T, cf)
+
+function convergents(T::Type, cf::ContinuedFraction)
+    na, da, nb, db = T(1), T(0), T(cf.q[1]), T(1)
+    v = Rational{T}[nb//db]
+    for x in cf.q[2:end]
+        na, da, nb, db = nb, db, na+x*nb, da+x*db
+        push!(v, nb//db)
+    end
+    v
+end
+
+"""
+    convergents(cf::ContinuedFraction)
+    convergents(T::Type, cf::ContinuedFraction)
+
+Compute the last convergent of the continued fraction.
+
+These are almost equivalent to
+    
+    fromcontfrac(cf)
+    fromcontfrac(Rational{T}, cf)
+
+but perform the computation in the opposite order.
+
+Moreover, it does not use the type `Rational` internally, so it does not check for overflow.
+"""
+function convergent end
+
+convergent(cf::ContinuedFraction) = convergent(eltype(cf), cf)
+
+convergent(::Type{<:Rational{T}}, cf::ContinuedFraction) where T = convergent(T, cf)
+
+function convergent(T::Type, cf::ContinuedFraction)
+    na, da, nb, db = T(1), T(0), T(cf.q[1]), T(1)
+    for x in cf.q[2:end]
+        na, da, nb, db = nb, db, na+x*nb, da+x*db
+    end
+    nb//db
 end
 
 """
