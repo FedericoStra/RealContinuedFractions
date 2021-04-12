@@ -29,6 +29,14 @@ julia> fromcontfrac(cf)
 
 julia> fromcontfrac(Float64, cf)
 3.1415
+
+julia> convergents(contfrac(π, 5))
+5-element Vector{Rational{Int64}}:
+      3//1
+     22//7
+    333//106
+    355//113
+ 103993//33102
 ```
 
 ## Library
