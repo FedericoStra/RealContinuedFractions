@@ -6,7 +6,9 @@ struct ContinuedFraction{Q}
     q::Q # quotients
 end
 
-import Base: eltype, length
+import Base: ==, eltype, length
+
+==(a::ContinuedFraction, b::ContinuedFraction) = a.q == b.q
 
 eltype(cf::ContinuedFraction) = eltype(cf.q)
 length(cf::ContinuedFraction) = length(cf.q)
