@@ -2,6 +2,11 @@ module RealContinuedFractions
 
 export ContinuedFraction, contfrac, fromcontfrac, quotients, convergents
 
+"""
+    ContinuedFraction(q::Q)
+
+Type representing a continued fraction, storing the terms with the type `Q`.
+"""
 struct ContinuedFraction{Q}
     q::Q # quotients
 end
@@ -12,6 +17,17 @@ import Base: ==, eltype, length
 
 eltype(cf::ContinuedFraction) = eltype(cf.q)
 length(cf::ContinuedFraction) = length(cf.q)
+
+"""
+    contfrac(x::Real)
+    contfrac(x::Real, n::Integer)
+    contfrac(T::Type, x::Real)
+    contfrac(T::Type, x::Real, n::Integer)
+
+Compute the first `n` terms of the continued fraction of `x`, representing it with type `T`
+(defaults to `Int`).
+"""
+function contfrac end
 
 contfrac(x::Real) = contfrac(Int, x)
 contfrac(x::Real, n::Integer) = contfrac(Int, x, n)
@@ -37,6 +53,15 @@ function contfrac(T::Type, x::Real, n::Integer)
     ContinuedFraction(q)
 end
 
+"""
+    fromcontfrac(cf::ContinuedFraction)
+    fromcontfrac(T::Type, cf::ContinuedFraction)
+
+Evaluate the continued fraction `cf` using the type `T` (defaults to the rational type
+associated with `eltype(cf)`).
+"""
+function fromcontfrac end
+
 fromcontfrac(cf::ContinuedFraction) = fromcontfrac(_rational(eltype(cf)), cf)
 
 function fromcontfrac(T::Type, cf::ContinuedFraction)
@@ -49,6 +74,13 @@ function fromcontfrac(T::Type, cf::ContinuedFraction)
     end
     x
 end
+
+"""
+    _rational(::Type)
+
+Promote integral types to rational and leave others as they are.
+"""
+function _rational end
 
 _rational(T::Type{<:Integer}) = Rational{T}
 # _rational(T::Type{<:Rational}) = T
