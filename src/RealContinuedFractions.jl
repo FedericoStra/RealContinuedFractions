@@ -19,7 +19,7 @@ function contfrac(T::Type, x::Real)
     while true
         fpart, ipart = modf(x)
         push!(q, T(ipart))
-        fpart == 0 && return ContinuedFraction(q), zero(fpart)
+        fpart == 0 && return ContinuedFraction(q)
         x = inv(fpart)
     end
 end
@@ -29,10 +29,10 @@ function contfrac(T::Type, x::Real, n::Integer)
     for _ in 1:n
         fpart, ipart = modf(x)
         push!(q, T(ipart))
-        fpart == 0 && return ContinuedFraction(q), zero(fpart)
+        fpart == 0 && return ContinuedFraction(q)
         x = inv(fpart)
     end
-    ContinuedFraction(q), x
+    ContinuedFraction(q)
 end
 
 fromcontfrac(cf::ContinuedFraction) = fromcontfrac(_rational(eltype(cf)), cf)
