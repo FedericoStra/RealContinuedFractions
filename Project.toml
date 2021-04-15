@@ -1,7 +1,7 @@
 name = "RealContinuedFractions"
 uuid = "2913f2de-b437-495a-9482-ef041561d0d3"
 authors = ["Federico Stra <stra.federico@gmail.com> and contributors"]
-version = "0.1.0"
+version = "0.1.1"
 
 [compat]
 julia = "1.3"
